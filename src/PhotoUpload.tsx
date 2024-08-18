@@ -4,7 +4,6 @@ import FormattedMessage from "./FormattedMessage";
 import CodeBlock from "./CodeBlock";
 import "./App.css";
 
-const GITHUB_TOKEN = import.meta.env.VITE_GITHUB_TOKEN as string;
 const OPEN_AI_KEY = import.meta.env.VITE_OPEN_AI_KEY as string;
 const GREPTILE_KEY = import.meta.env.VITE_GREPTILE_API_KEY as string;
 
@@ -15,9 +14,10 @@ const greptilePrompt =
 
 interface PhotoUploadProps {
   repo: string;
+  gitKey: string;
 }
 
-const PhotoUpload: React.FC<PhotoUploadProps> = ({ repo }) => {
+const PhotoUpload: React.FC<PhotoUploadProps> = ({ repo, gitKey }) => {
   const [parsedBlocks, setParsedBlocks] = useState<
     Array<{ type: string; language?: string; content: string }>
   >([]);
@@ -147,7 +147,7 @@ const PhotoUpload: React.FC<PhotoUploadProps> = ({ repo }) => {
               method: "POST",
               headers: {
                 Authorization: `Bearer ${GREPTILE_KEY}`,
-                "X-Github-Token": GITHUB_TOKEN,
+                "X-Github-Token": gitKey,
                 "Content-Type": "application/json"
               },
               body: JSON.stringify(queryPayload)

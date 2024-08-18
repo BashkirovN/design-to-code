@@ -130,7 +130,7 @@ const App: React.FC = () => {
   const renderImageUploadScreen = () => (
     <div>
       <h1>Repository Processed!</h1>
-      <PhotoUpload repo={gitRepo} />
+      <PhotoUpload repo={gitRepo} gitKey={gitKey} />
     </div>
   );
 
