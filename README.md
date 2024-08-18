@@ -2,6 +2,12 @@
 
 This project is a React application that allows users to upload an image of a design and generate code based on it. It utilizes the Greptile API for processing GitHub repositories and generating code.
 
+## Demo
+
+In the video, I used Design-To-Code to update the login page of one of my practice projects. I fed the app a design image I found on Google and then updated the Rails app with the outputted code.
+
+- https://youtu.be/gVf8NK3r3a8
+
 ## Prerequisites
 
 Before you begin, ensure you have the following:
