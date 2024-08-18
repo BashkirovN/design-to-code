@@ -1,23 +1,25 @@
 import React, { useState } from "react";
-//import axios from "axios";
 import PhotoUpload from "./PhotoUpload";
 import "./App.css";
 
-const GITHUB_TOKEN = import.meta.env.VITE_GITHUB_TOKEN as string;
 const GREPTILE_KEY = import.meta.env.VITE_GREPTILE_API_KEY as string;
 
 const App: React.FC = () => {
   const [screen, setScreen] = useState<"enterRepo" | "imageUpload">(
-    //"enterRepo"
-    "imageUpload" // TODO: change to "enterRepo"
+    "enterRepo"
   );
   const [gitRepo, setGitRepo] = useState<string>("");
+  const [gitKey, setGitKey] = useState<string>("");
   const [processing, setProcessing] = useState<boolean>(false);
   const [polling, setPolling] = useState<boolean>(false);
 
   // Handles repository URL input change
   const handleGitRepoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setGitRepo(e.target.value);
+  };
+
+  const handleGitKeyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setGitKey(e.target.value);
   };
 
   // Submits the repository to Greptile for processing
@@ -34,7 +36,7 @@ const App: React.FC = () => {
         method: "POST",
         headers: {
           Authorization: `Bearer ${GREPTILE_KEY}`,
-          "X-Github-Token": GITHUB_TOKEN,
+          "X-Github-Token": gitKey,
           "Content-Type": "application/json"
         },
         body: JSON.stringify(repositoryPayload)
@@ -43,7 +45,6 @@ const App: React.FC = () => {
       const data = await response.json();
 
       if (response.ok) {
-        // Assuming the Greptile API returns an ID for polling
         const repoId = encodeURIComponent(`github:main:${gitRepo}`);
         pollRepoStatus(repoId);
       } else {
@@ -67,7 +68,7 @@ const App: React.FC = () => {
           {
             headers: {
               Authorization: `Bearer ${GREPTILE_KEY}`,
-              "X-Github-Token": GITHUB_TOKEN
+              "X-Github-Token": gitKey
             }
           }
         );
@@ -106,7 +107,18 @@ const App: React.FC = () => {
         value={gitRepo}
         onChange={handleGitRepoChange}
       />
-      <button onClick={handleRepoSubmit} disabled={processing || polling}>
+      <input
+        type="password"
+        placeholder="Enter GitHub Key"
+        value={gitKey}
+        onChange={handleGitKeyChange}
+        required
+      />
+      <button
+        className="submit-button"
+        onClick={handleRepoSubmit}
+        disabled={processing || polling}
+      >
         Submit
       </button>
       {processing && <p>Processing repository... Please wait.</p>}
