@@ -78,3 +78,6 @@ To preview the built project:
 ## Note
 
 Ensure that you have the necessary permissions and API usage limits for the GitHub, Greptile, and OpenAI APIs before running the application.
+
+## OpenAI ref:
+ - https://platform.openai.com/docs/guides/vision?lang=node
